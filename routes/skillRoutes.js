@@ -1,0 +1,17 @@
+const express = require("express");
+const router = express.Router();
+const {
+  createSkill,
+  getAllSkills,
+  updateSkill,
+  deleteSkill,
+} = require("../controllers/skillController");
+const authMiddleware = require("../middleware/authMiddleware"); // Use the authentication middleware
+
+// All skill routes are protected by authentication
+router.post("/", authMiddleware, createSkill); // Create Skill (requires login)
+router.get("/", authMiddleware, getAllSkills); // Get all Skills (requires login)
+router.put("/:id", authMiddleware, updateSkill); // Update Skill (requires login)
+router.delete("/:id", authMiddleware, deleteSkill); // Delete Skill (requires login)
+
+module.exports = router;
