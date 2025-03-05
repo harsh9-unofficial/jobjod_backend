@@ -8,6 +8,7 @@ const experienceRoutes = require("./routes/experienceRoutes");
 const educationRoutes = require("./routes/educationRoutes");
 const skillRoutes = require("./routes/skillRoutes");
 const attachmentRoutes = require("./routes/attachmentRoutes");
+const preferenceRoutes = require("./routes/preferenceRoutes");
 
 app.use(express.json());
 app.use("/api/users", userRoutes); // Public routes for user login
@@ -15,6 +16,8 @@ app.use("/api/experiences", experienceRoutes); // Protected routes for experienc
 app.use("/api/education", educationRoutes); // Protected routes for education
 app.use("/api/skills", skillRoutes); // Protected routes for skills
 app.use("/api/attachments", attachmentRoutes); // Protected routes for attachments
+app.use("/api/preferences", preferenceRoutes);
+
 
 // Sync database
 sequelize.sync({ force: false }).then(() => {

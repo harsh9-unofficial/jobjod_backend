@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db"); // Assuming you have a sequelize instance setup
 const User = require("../models/userModel"); // Adjust the path based on your project structure
 
-// Define the Attachment model
+// Define the Portfolio model
 const Portfolio = sequelize.define(
   "Portfolio",
   {
@@ -15,7 +15,7 @@ const Portfolio = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Users", // The target model is 'Users'
+        model: "Users", // Ensure this matches your 'Users' table name
         key: "id",
       },
     },
@@ -29,15 +29,18 @@ const Portfolio = sequelize.define(
     },
   },
   {
-    timestamps: true, // Store the created and updated timestamps
-    tableName: "portfolio",
+    timestamps: true, // Store createdAt and updatedAt automatically
+    tableName: "portfolio", // Ensure the table name is correct
   }
 );
 
-User.hasMany(Portfolio, { foreignKey: "userId" });
+// Establish relationships
 Portfolio.belongsTo(User, { foreignKey: "userId" });
+User.hasMany(Portfolio, { foreignKey: "userId" });
 
-// Sync the model with the database (make sure this runs when the app starts)
-Portfolio.sync();
+// Sync the model (consider using migrations instead of sync in production)
+Portfolio.sync({ alter: true }) // `alter` ensures the table is adjusted if it already exists
+  .then(() => console.log("Portfolio table synced"))
+  .catch((error) => console.error("Error syncing Portfolio table:", error));
 
 module.exports = Portfolio;

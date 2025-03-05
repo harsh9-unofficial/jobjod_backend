@@ -4,7 +4,14 @@ const User = require("./userModel");
 
 const Preference = sequelize.define("Preference", {
   id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  userId: { type: DataTypes.INTEGER, allowNull: false },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: "Users", // The target model is 'Users'
+      key: "id",
+    },
+  },
   employmentType: { type: DataTypes.STRING, allowNull: false },
   workplace: { type: DataTypes.STRING, allowNull: false },
   location: { type: DataTypes.STRING, allowNull: false },
