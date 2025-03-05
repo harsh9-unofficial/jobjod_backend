@@ -27,3 +27,9 @@ Attachments (Protected by authentication):
 Create Attachment: POST /api/attachments
 Get All Attachments: GET /api/attachments
 Delete Attachment: DELETE /api/attachments/:id
+
+
+
+
+--------------------------------------------------------------
+-> express sequelize mysql2 dotenv bcryptjs jsonwebtoken cors nodemon multer
