@@ -17,7 +17,7 @@ const Education = sequelize.define(
         key: "id",
       },
     },
-    institution: {
+    highestEducation: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -25,11 +25,15 @@ const Education = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    startDate: {
-      type: DataTypes.DATEONLY,
+    specialization: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    endDate: {
+    collegeName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    completionYear: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
