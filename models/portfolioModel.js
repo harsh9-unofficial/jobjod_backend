@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db"); // Assuming you have a sequelize instance setup
-const User = require("../models/userModel"); // Adjust the path based on your project structure
+const Login = require("./loginModel");
+// const User = require("../models/userModel"); // Adjust the path based on your project structure
 
 // Define the Portfolio model
 const Portfolio = sequelize.define(
@@ -15,7 +16,7 @@ const Portfolio = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Users", // Ensure this matches your 'Users' table name
+        model: "Login", // Ensure this matches your 'Login' table name
         key: "id",
       },
     },
@@ -27,20 +28,47 @@ const Portfolio = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    field1: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    field2: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    field3: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    field4: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    field5: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    field6: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    field7: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    field8: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     timestamps: true, // Store createdAt and updatedAt automatically
-    tableName: "portfolio", // Ensure the table name is correct
+    tableName: "portfolios", // Ensure the table name is correct
   }
 );
 
 // Establish relationships
-Portfolio.belongsTo(User, { foreignKey: "userId" });
-User.hasMany(Portfolio, { foreignKey: "userId" });
-
-// Sync the model (consider using migrations instead of sync in production)
-Portfolio.sync({ alter: true }) // `alter` ensures the table is adjusted if it already exists
-  .then(() => console.log("Portfolio table synced"))
-  .catch((error) => console.error("Error syncing Portfolio table:", error));
+Portfolio.belongsTo(Login, { foreignKey: "userId" });
+Login.hasMany(Portfolio, { foreignKey: "userId" });
 
 module.exports = Portfolio;

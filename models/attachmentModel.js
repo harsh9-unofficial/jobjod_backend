@@ -1,10 +1,20 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db"); // Assuming you have a sequelize instance setup
+const Login = require("./loginModel");
 
 // Define the Attachment model
 const Attachment = sequelize.define(
   "Attachment",
   {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Login", // Ensure this matches your 'Login' table name
+        key: "id",
+      },
+    },
     // File name
     fileName: {
       type: DataTypes.STRING,
@@ -31,6 +41,9 @@ const Attachment = sequelize.define(
     tableName: "attachments",
   }
 );
+
+Attachment.belongsTo(Login, { foreignKey: "userId" });
+Login.hasMany(Attachment, { foreignKey: "userId" });
 
 // Sync the model with the database (make sure this runs when the app starts)
 Attachment.sync();

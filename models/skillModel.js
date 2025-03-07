@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db"); // Import your Sequelize instance
+const Login = require("./loginModel");
 
 const Skill = sequelize.define(
   "Skill",
@@ -13,7 +14,7 @@ const Skill = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Users", // The target model is 'Users'
+        model: "Login", // The target model is 'Login'
         key: "id",
       },
     },
@@ -23,8 +24,12 @@ const Skill = sequelize.define(
     },
   },
   {
-    timestamps: true, // If you want createdAt and updatedAt to be automatically managed
+    timestamps: true, // Store createdAt and updatedAt automatically
+    tableName: "skills", // Ensure the table name is correct
   }
 );
+
+Skill.belongsTo(Login, { foreignKey: "userId" });
+Login.hasMany(Skill, { foreignKey: "userId" });
 
 module.exports = Skill;
