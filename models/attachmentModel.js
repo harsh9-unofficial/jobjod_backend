@@ -14,6 +14,8 @@ const Attachment = sequelize.define(
         model: "Login", // Ensure this matches your 'Login' table name
         key: "id",
       },
+      onDelete: "CASCADE", // Adjust based on your requirements
+      onUpdate: "CASCADE", // Adjust based on your requirements
     },
     // File name
     fileName: {
@@ -45,7 +47,9 @@ const Attachment = sequelize.define(
 Attachment.belongsTo(Login, { foreignKey: "userId" });
 Login.hasMany(Attachment, { foreignKey: "userId" });
 
-// Sync the model with the database (make sure this runs when the app starts)
-Attachment.sync();
+// Sync Login table first
+Login.sync().then(() => {
+  Attachment.sync();
+});
 
 module.exports = Attachment;

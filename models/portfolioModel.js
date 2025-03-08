@@ -19,6 +19,8 @@ const Portfolio = sequelize.define(
         model: "Login", // Ensure this matches your 'Login' table name
         key: "id",
       },
+      onDelete: "CASCADE", // Adjust based on your requirements
+      onUpdate: "CASCADE", // Adjust based on your requirements
     },
     githubLink: {
       type: DataTypes.STRING,
@@ -71,4 +73,10 @@ const Portfolio = sequelize.define(
 Portfolio.belongsTo(Login, { foreignKey: "userId" });
 Login.hasMany(Portfolio, { foreignKey: "userId" });
 
+
+// Sync Login table first
+Login.sync().then(() => {
+  // Then sync the table
+  Portfolio.sync();
+});
 module.exports = Portfolio;

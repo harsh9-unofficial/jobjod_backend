@@ -5,8 +5,16 @@ require("dotenv").config();
 
 // Create a new user
 exports.createUser = async (req, res) => {
-  const { name, designation, email, password, gender, phone, location } =
-    req.body;
+  const {
+    userId,
+    fullName,
+    gender,
+    email,
+    password,
+    phone,
+    location,
+    birthDate,
+  } = req.body;
 
   try {
     // Check if the user already exists
@@ -20,13 +28,14 @@ exports.createUser = async (req, res) => {
 
     // Create new user
     const user = await User.create({
-      name,
-      designation,
+      userId,
+      fullName,
+      gender,
       email,
       password: hashedPassword,
-      gender,
       phone,
       location,
+      birthDate,
     });
 
     // Return the created user (excluding password)
@@ -70,7 +79,7 @@ exports.createUser = async (req, res) => {
 // Get user data (after validating JWT token)
 exports.getData = async (req, res) => {
   try {
-    const user = await User.findByPk(req.userId);
+    const user = await User.findOne(req.userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -87,22 +96,24 @@ exports.getData = async (req, res) => {
 
 // Update user data (excluding password)
 exports.updateUser = async (req, res) => {
-  const { name, designation, email, gender, phone, location } = req.body;
+  const { userId, fullName, gender, email, phone, location, birthDate } =
+    req.body;
 
   try {
-    const user = await User.findByPk(req.userId);
+    const user = await User.findOne(req.userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     // Update the user's information (excluding password)
     const updatedUser = await user.update({
-      name,
-      designation,
-      email,
+      userId,
+      fullName,
       gender,
+      email,
       phone,
       location,
+      birthDate,
     });
 
     // Return updated user (excluding password)
@@ -118,7 +129,7 @@ exports.updateUser = async (req, res) => {
 // Delete user account
 exports.deleteUser = async (req, res) => {
   try {
-    const user = await User.findByPk(req.userId);
+    const user = await User.findOne(req.userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

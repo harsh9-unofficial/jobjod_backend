@@ -17,6 +17,8 @@ const Education = sequelize.define(
         model: "Login", // The target model is 'Login'
         key: "id",
       },
+      onDelete: "CASCADE", // Adjust based on your requirements
+      onUpdate: "CASCADE", // Adjust based on your requirements
     },
     highestEducation: {
       type: DataTypes.STRING,
@@ -48,4 +50,9 @@ const Education = sequelize.define(
 Education.belongsTo(Login, { foreignKey: "userId" });
 Login.hasMany(Education, { foreignKey: "userId" });
 
+// Sync Login table first
+Login.sync().then(() => {
+  // Then sync the table
+  Education.sync();
+});
 module.exports = Education;

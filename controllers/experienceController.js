@@ -42,11 +42,36 @@ exports.getAllExperiences = async (req, res) => {
 
 // Update Experience
 exports.updateExperience = async (req, res) => {
+  const {
+    userId,
+    companyName,
+    jobTitle,
+    industry,
+    department,
+    startDate,
+    endDate,
+    employmentType,
+    noticePeriod,
+  } = req.body;
   try {
-    const experience = await Experience.update(req.body, {
-      where: { id: req.params.id },
+    const exe = await Experience.findOne(req.userId);
+    if (!exe) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update the user's information (excluding password)
+    const updatedExe = await exe.update({
+      userId,
+      companyName,
+      jobTitle,
+      industry,
+      department,
+      startDate,
+      endDate,
+      employmentType,
+      noticePeriod,
     });
-    res.status(200).json(experience);
+    res.status(200).json(updatedExe);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

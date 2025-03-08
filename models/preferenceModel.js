@@ -14,6 +14,8 @@ const Preference = sequelize.define(
         model: "Login", // The target model is 'Login'
         key: "id",
       },
+      onDelete: "CASCADE", // Adjust based on your requirements
+      onUpdate: "CASCADE", // Adjust based on your requirements
     },
     employmentType: { type: DataTypes.STRING, allowNull: false },
     workplace: { type: DataTypes.STRING, allowNull: false },
@@ -29,4 +31,9 @@ const Preference = sequelize.define(
 Preference.belongsTo(Login, { foreignKey: "userId" });
 Login.hasMany(Preference, { foreignKey: "userId" });
 
+// Sync Login table first
+Login.sync().then(() => {
+  // Then sync the table
+  Preference.sync();
+});
 module.exports = Preference;

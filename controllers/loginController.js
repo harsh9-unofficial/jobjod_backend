@@ -16,6 +16,7 @@ exports.createLogin = async (req, res) => {
         expiresIn: "1h",
       });
       return res.status(200).json({
+        login,
         message: "login", // Return a 'login' message
         token,
       });
@@ -29,6 +30,7 @@ exports.createLogin = async (req, res) => {
           expiresIn: "1h",
         });
         return res.status(200).json({
+          login,
           message: "register", // Return a 'login' message
           token,
         });

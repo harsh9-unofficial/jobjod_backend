@@ -24,6 +24,7 @@ app.use("/api/attachments", attachmentRoutes); // Protected routes for attachmen
 app.use("/api/preferences", preferenceRoutes); // Protected routes for preference
 
 // Sync database
+
 sequelize.sync({ force: false }).then(() => {
   console.log("Database synced");
 });

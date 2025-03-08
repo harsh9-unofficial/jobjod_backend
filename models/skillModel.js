@@ -17,6 +17,8 @@ const Skill = sequelize.define(
         model: "Login", // The target model is 'Login'
         key: "id",
       },
+      onDelete: "CASCADE", // Adjust based on your requirements
+      onUpdate: "CASCADE", // Adjust based on your requirements
     },
     skill: {
       type: DataTypes.STRING,
@@ -31,5 +33,11 @@ const Skill = sequelize.define(
 
 Skill.belongsTo(Login, { foreignKey: "userId" });
 Login.hasMany(Skill, { foreignKey: "userId" });
+
+// Sync Login table first
+Login.sync().then(() => {
+  // Then sync the table
+  Skill.sync();
+});
 
 module.exports = Skill;

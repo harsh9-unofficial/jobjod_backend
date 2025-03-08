@@ -13,6 +13,8 @@ const Experience = sequelize.define(
         model: "Login", // Ensure this matches your 'Login' table name
         key: "id",
       },
+      onDelete: "CASCADE", // Adjust based on your requirements
+      onUpdate: "CASCADE", // Adjust based on your requirements
     },
     companyName: { type: DataTypes.STRING, allowNull: false },
     jobTitle: { type: DataTypes.STRING, allowNull: false },
@@ -31,5 +33,11 @@ const Experience = sequelize.define(
 
 Experience.belongsTo(Login, { foreignKey: "userId" });
 Login.hasMany(Experience, { foreignKey: "userId" });
+
+// Sync Login table first
+Login.sync().then(() => {
+  // Then sync the table
+  Experience.sync();
+});
 
 module.exports = Experience;

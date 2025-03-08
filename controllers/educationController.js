@@ -42,11 +42,30 @@ exports.getAllEducation = async (req, res) => {
 
 // Update Education
 exports.updateEducation = async (req, res) => {
+  const {
+    userId,
+    highestEducation,
+    degree,
+    specialization,
+    collegeName,
+    completionYear,
+  } = req.body;
   try {
-    const education = await Education.update(req.body, {
-      where: { id: req.params.id },
+    const edu = await Education.findOne(req.userId);
+    if (!edu) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update the user's information (excluding password)
+    const updatedEdu = await edu.update({
+      userId,
+      highestEducation,
+      degree,
+      specialization,
+      collegeName,
+      completionYear,
     });
-    res.status(200).json(education);
+    res.status(200).json(updatedEdu);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
