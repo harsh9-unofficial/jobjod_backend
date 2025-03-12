@@ -21,7 +21,7 @@ const User = sequelize.define(
     gender: { type: DataTypes.STRING, allowNull: false },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
-    phone: { type: DataTypes.INTEGER, allowNull: false },
+    phone: { type: DataTypes.BIGINT, allowNull: false },
     location: { type: DataTypes.STRING, allowNull: false },
     birthDate: { type: DataTypes.DATEONLY, allowNull: false },
   },
