@@ -9,9 +9,11 @@ const experienceRoutes = require("./routes/experienceRoutes");
 const educationRoutes = require("./routes/educationRoutes");
 const skillRoutes = require("./routes/skillRoutes");
 const attachmentRoutes = require("./routes/attachmentRoutes");
+// const applicationRoutes = require("./routes/applicationRoutes");
 const preferenceRoutes = require("./routes/preferenceRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 const certificationRoutes = require("./routes/certificationRoutes");
+const applicationRoutes = require("./routes/applicationRoutes");
 
 app.use(express.json());
 app.use(cors());
@@ -24,6 +26,7 @@ app.use("/api/skills", skillRoutes); // Protected routes for skills
 app.use("/api/attachments", attachmentRoutes); // Protected routes for attachments
 app.use("/api/preferences", preferenceRoutes); // Protected routes for preference
 app.use("/api/certifications", certificationRoutes); // Protected routes for certifications
+app.use("/api/applications", applicationRoutes);
 
 // Sync database
 

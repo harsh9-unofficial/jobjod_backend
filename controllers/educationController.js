@@ -16,9 +16,9 @@ exports.getEducationForLoggedInUser = async (req, res) => {
 
   try {
     // Fetch experiences based on the logged-in user's userId
-    const educationRecords = await Education.findAll({ where: { userId } });
+    const educationRecords = await Education.findAll(userId);
 
-    if (!experiences.length) {
+    if (!educationRecords.length) {
       return res
         .status(404)
         .json({ message: "No experiences found for this user" });

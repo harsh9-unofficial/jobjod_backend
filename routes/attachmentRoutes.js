@@ -4,7 +4,8 @@ const {
   createOrUpdateProfile,
   getProfile,
   updatePortfolio,
-  deleteProfileData,
+  deleteResume,
+  deletePortfolioLink,
 } = require("../controllers/attachmentController");
 
 const authMiddleware = require("../middleware/authMiddleware"); // Use the authentication middleware
@@ -18,7 +19,10 @@ router.get("/:user_id", authMiddleware, getProfile);
 // Route to update a portfolio link
 router.put("/portfolio/:id", authMiddleware, updatePortfolio);
 
-// Route to delete a resume or a portfolio link
-router.delete("/data/:type/:id", authMiddleware, deleteProfileData);
+// Route to delete a resume (PDF)
+router.delete("/resume/:id", authMiddleware, deleteResume); // DELETE resume by ID
+
+// Route to delete a portfolio link
+router.delete("/portfolio/:id", authMiddleware, deletePortfolioLink); // DELETE portfolio link by ID
 
 module.exports = router;

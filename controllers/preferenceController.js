@@ -16,7 +16,7 @@ exports.getPreferencesForLoggedInUser = async (req, res) => {
 
   try {
     // Fetch preferences based on the logged-in user's userId
-    const preferences = await Preference.findAll({ where: { userId } });
+    const preferences = await Preference.findAll(userId);
 
     if (!preferences.length) {
       return res

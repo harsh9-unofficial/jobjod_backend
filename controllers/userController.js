@@ -48,6 +48,36 @@ exports.createUser = async (req, res) => {
   }
 };
 
+exports.getSpecificData = async (req, res) => {
+  const { userId } = req; // Extract the user id from the route parameter
+
+  try {
+    // Fetch user data from the database by the provided ID
+    const userData = await User.findOne(userId);
+
+    // If the user is not found
+    if (!userData) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Return the user data in the response
+    return res.status(200).json({
+      success: true,
+      data: userData,
+    });
+  } catch (error) {
+    // Handle any errors
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error, please try again later.",
+    });
+  }
+};
+
 // // Login user and generate JWT token
 // exports.loginUser = async (req, res) => {
 //   const { email, password } = req.body;

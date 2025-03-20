@@ -10,8 +10,8 @@ const {
 const authMiddleware = require("../middleware/authMiddleware"); // Use the authentication middleware
 
 router.post('/', authMiddleware, createCertification);
-router.get('/', authMiddleware, getAllCertifications);
-router.get('/:id', authMiddleware, getCertificationById);
+router.get('/all', authMiddleware, getAllCertifications);
+router.get('/', authMiddleware, getCertificationById);
 router.put('/:id', authMiddleware, updateCertification);
 router.delete('/:id', authMiddleware, deleteCertification);
 
