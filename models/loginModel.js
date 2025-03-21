@@ -15,6 +15,10 @@ const Login = sequelize.define(
       allowNull: false,
       unique: true,
     },
+    userType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     timestamps: true, // Store createdAt and updatedAt automatically
