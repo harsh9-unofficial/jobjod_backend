@@ -23,7 +23,7 @@ const Experience = sequelize.define(
     startDate: { type: DataTypes.DATEONLY, allowNull: false },
     endDate: { type: DataTypes.DATEONLY, allowNull: false },
     employmentType: { type: DataTypes.STRING, allowNull: false },
-    noticePeriod: { type: DataTypes.STRING, allowNull: false },
+    salary: { type: DataTypes.INTEGER, allowNull: false },
   },
   {
     timestamps: true, // Store createdAt and updatedAt automatically

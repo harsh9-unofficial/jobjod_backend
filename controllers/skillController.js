@@ -1,33 +1,47 @@
 const Skill = require("../models/skillModel");
 
-// Create Skill
+// Create Skills
+exports.createSkills = async (req, res) => {
+  const { userId, skills } = req.body;
+
+  console.log(userId, skills);
+
+  if (!userId || !Array.isArray(skills) || skills.length === 0) {
+    return res.status(400).json({ error: "Invalid data" });
+  }
+
+  try {
+    // Insert multiple skills into the database using bulkCreate
+    const skillEntries = skills.map((skill) => ({ userId, skill }));
+
+    // Bulk create skills
+    await Skill.bulkCreate(skillEntries);
+    res.status(201).json({ message: "Skills saved successfully" });
+  } catch (err) {
+    console.error("Error inserting skills:", err);
+    res.status(500).json({ error: "Failed to insert skills" });
+  }
+};
+
 exports.createSkill = async (req, res) => {
   try {
-    const { userId, skill } = req.body; // Extract userId and skill from request body
-
-    // Validate input
-    if (!userId || !skill) {
-      return res.status(400).json({ message: "userId and skill are required" });
-    }
-
-    // Create the skill in the database
-    const newSkill = await Skill.create({
-      userId, // Ensure userId is being correctly passed
-      skill, // Ensure skill is being correctly passed
-    });
-
-    res.status(201).json(newSkill);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    // Bulk create skills
+    await Skill.create(req.body);
+    res.status(201).json({ message: "Skills saved successfully" });
+  } catch (err) {
+    console.error("Error inserting skills:", err);
+    res.status(500).json({ error: "Failed to insert skills" });
   }
 };
 
 exports.getSpecificData = async (req, res) => {
-  const userId = req.userId; // Access userId from the authenticated token
+  const userId = req.params.userId; // Access userId from the authenticated token
 
   try {
     // Fetch user data from the database by the provided ID
-    const userData = await Skill.findAll(userId);
+    const userData = await Skill.findAll({ _id: userId });
+
+    // console.log(userData);
 
     // If the user is not found
     if (!userData) {

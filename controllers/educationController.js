@@ -2,9 +2,15 @@ const Education = require("../models/educationModel");
 
 // Create Education
 exports.createEducation = async (req, res) => {
+  const { educationEntries } = req.body;
+
+  if (!Array.isArray(educationEntries) || educationEntries.length === 0) {
+    return res.status(400).json({ message: "Invalid data format." });
+  }
+
   try {
-    const education = await Education.create(req.body);
-    res.status(201).json(education);
+    const createdEducation = await Education.bulkCreate(educationEntries);
+    res.status(201).json(createdEducation);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -12,11 +18,11 @@ exports.createEducation = async (req, res) => {
 
 // Get all experiences for the logged-in user (using userId from token)
 exports.getEducationForLoggedInUser = async (req, res) => {
-  const userId = req.userId; // Access userId from the authenticated token
+  const userId = req.params.userId; // Access userId from the authenticated token
 
   try {
     // Fetch experiences based on the logged-in user's userId
-    const educationRecords = await Education.findAll(userId);
+    const educationRecords = await Education.findAll({ _id: userId });
 
     if (!educationRecords.length) {
       return res

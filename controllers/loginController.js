@@ -20,14 +20,26 @@ exports.createLogin = async (req, res) => {
         });
       }
 
+      let token = null;
       // If the login exists and OTP matches
       if (otp === process.env.OTP) {
-        // Generate a JWT token for login
-        const token = jwt.sign(
-          { loginId: existingLogin.id, userType: existingLogin.userType }, // Include userType in the payload
-          process.env.JWT_SECRET,
-          { expiresIn: "1h" }
-        );
+        if (existingLogin.userType === "Job Giver") {
+          // Generate a JWT token for Company Login
+          token = jwt.sign(
+            { loginId: existingLogin.id, userType: existingLogin.userType },
+            process.env.JWT_SECRET_COMPANY,
+            { expiresIn: "9h" }
+          );
+          console.log(existingLogin.userType);
+          
+        } else {
+          // Generate a JWT token for User Login
+          token = jwt.sign(
+            { loginId: existingLogin.id, userType: existingLogin.userType },
+            process.env.JWT_SECRET,
+            { expiresIn: "9h" }
+          );
+        }
 
         // Successful login
         return res.status(200).json({
@@ -52,7 +64,7 @@ exports.createLogin = async (req, res) => {
         const token = jwt.sign(
           { loginId: existingLogin.id, userType: existingLogin.userType }, // Include userType in the payload
           process.env.JWT_SECRET,
-          { expiresIn: "1h" }
+          { expiresIn: "6h" }
         );
 
         // Return the new user registration response

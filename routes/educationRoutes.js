@@ -11,7 +11,7 @@ const authMiddleware = require("../middleware/authMiddleware"); // Use the authe
 
 // All education routes are protected by authentication
 router.post("/", authMiddleware, createEducation); // Create Education (requires login)
-router.get("/", authMiddleware, getEducationForLoggedInUser); // Get all Education records (requires login)
+router.get("/:userId", authMiddleware, getEducationForLoggedInUser); // Get all Education records (requires login)
 router.put("/:id", authMiddleware, updateEducation); // Update Education (requires login)
 router.delete("/:id", authMiddleware, deleteEducation); // Delete Education (requires login)
 

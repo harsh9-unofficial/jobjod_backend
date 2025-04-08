@@ -12,17 +12,21 @@ exports.createPreference = async (req, res) => {
 
 // Get all preferences for the logged-in user (using userId from token)
 exports.getPreferencesForLoggedInUser = async (req, res) => {
-  const userId = req.userId; // Access userId from the authenticated token
+  const userId = req.params.userId;
 
   try {
     // Fetch preferences based on the logged-in user's userId
-    const preferences = await Preference.findAll(userId);
+    const preferences = await Preference.findAll({
+      where: { userId: userId },
+    });
 
     if (!preferences.length) {
       return res
         .status(404)
         .json({ message: "No preferences found for this user" });
     }
+
+    console.log(preferences);
 
     res.status(200).json(preferences);
   } catch (error) {
@@ -31,14 +35,14 @@ exports.getPreferencesForLoggedInUser = async (req, res) => {
 };
 
 // Get all preferences
-exports.getAllPreferences = async (req, res) => {
-  try {
-    const preferences = await Preference.findAll();
-    res.status(200).json(preferences);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+// exports.getAllPreferences = async (req, res) => {
+//   try {
+//     const preferences = await Preference.findAll();
+//     res.status(200).json(preferences);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 // Update Preference
 exports.updatePreference = async (req, res) => {

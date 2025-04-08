@@ -2,8 +2,11 @@ const Certification = require("../models/certificationModel");
 
 // Create a new certification
 exports.createCertification = async (req, res) => {
+  const { certifications } = req.body;
+
   try {
-    const certification = await Certification.create(req.body);
+    console.log(certifications);  // Log the received body
+    const certification = await Certification.bulkCreate(certifications);
     res.status(201).json(certification);
   } catch (error) {
     res.status(500).json({ error: error.message });

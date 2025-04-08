@@ -10,10 +10,10 @@ exports.createUser = async (req, res) => {
     fullName,
     gender,
     email,
-    password,
     phone,
     location,
     birthDate,
+    pincode,
   } = req.body;
 
   try {
@@ -23,37 +23,30 @@ exports.createUser = async (req, res) => {
       return res.status(400).json({ message: "Email already in use" });
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     // Create new user
     const user = await User.create({
       userId,
       fullName,
       gender,
       email,
-      password: hashedPassword,
       phone,
       location,
       birthDate,
+      pincode,
     });
 
-    // Return the created user (excluding password)
-    const userWithoutPassword = { ...user.toJSON() };
-    delete userWithoutPassword.password;
-
-    res.status(201).json(userWithoutPassword);
+    res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
 exports.getSpecificData = async (req, res) => {
-  const { userId } = req; // Extract the user id from the route parameter
+  const userId = req.params.userId; // Access userId from request parameters
 
   try {
     // Fetch user data from the database by the provided ID
-    const userData = await User.findOne(userId);
+    const userData = await User.findOne({ _id: userId });
 
     // If the user is not found
     if (!userData) {
@@ -77,6 +70,7 @@ exports.getSpecificData = async (req, res) => {
     });
   }
 };
+
 
 // // Login user and generate JWT token
 // exports.loginUser = async (req, res) => {
@@ -114,11 +108,7 @@ exports.getData = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Return the user data (excluding password)
-    const userWithoutPassword = { ...user.toJSON() };
-    delete userWithoutPassword.password;
-
-    res.status(200).json(userWithoutPassword);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -126,31 +116,32 @@ exports.getData = async (req, res) => {
 
 // Update user data (excluding password)
 exports.updateUser = async (req, res) => {
-  const { userId, fullName, gender, email, phone, location, birthDate } =
-    req.body;
+  const userId = req.params.userId; // Access userId from request parameters
+  const {
+    gender,
+    email,
+    phone,
+    location,
+    birthDate,
+    pincode,
+  } = req.body;
 
   try {
-    const user = await User.findOne(req.userId);
+    const user = await User.findOne({ _id: userId });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Update the user's information (excluding password)
     const updatedUser = await user.update({
-      userId,
-      fullName,
       gender,
       email,
       phone,
       location,
       birthDate,
+      pincode,
     });
 
-    // Return updated user (excluding password)
-    const userWithoutPassword = { ...updatedUser.toJSON() };
-    delete userWithoutPassword.password;
-
-    res.status(200).json(userWithoutPassword);
+    res.status(200).json(updatedUser);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

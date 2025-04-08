@@ -2,9 +2,15 @@ const Experience = require("../models/experienceModel");
 
 // Create Experience
 exports.createExperience = async (req, res) => {
+  const { experienceEntries } = req.body;
+
+  if (!Array.isArray(experienceEntries) || experienceEntries.length === 0) {
+    return res.status(400).json({ message: "Invalid data format." });
+  }
+
   try {
-    const experience = await Experience.create(req.body);
-    res.status(201).json(experience);
+    const createdExperience = await Experience.bulkCreate(experienceEntries);
+    res.status(201).json(createdExperience);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -12,11 +18,11 @@ exports.createExperience = async (req, res) => {
 
 // Get all experiences for the logged-in user (using userId from token)
 exports.getExperiencesForLoggedInUser = async (req, res) => {
-  const userId = req.userId; // Access userId from the authenticated token
+  const userId = req.params.userId; // Access userId from the authenticated token
 
   try {
     // Fetch experiences based on the logged-in user's userId
-    const experiences = await Experience.findAll(userId);
+    const experiences = await Experience.findAll({ _id: userId });
 
     if (!experiences.length) {
       return res
@@ -51,7 +57,7 @@ exports.updateExperience = async (req, res) => {
     startDate,
     endDate,
     employmentType,
-    noticePeriod,
+    salary,
   } = req.body;
   try {
     const exe = await Experience.findOne(req.userId);
@@ -69,7 +75,7 @@ exports.updateExperience = async (req, res) => {
       startDate,
       endDate,
       employmentType,
-      noticePeriod,
+      salary,
     });
     res.status(200).json(updatedExe);
   } catch (error) {

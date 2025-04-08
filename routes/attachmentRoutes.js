@@ -14,7 +14,7 @@ const authMiddleware = require("../middleware/authMiddleware"); // Use the authe
 router.post("/", authMiddleware, createOrUpdateProfile);
 
 // Route to get profile data (resume and portfolio links)
-router.get("/:user_id", authMiddleware, getProfile);
+router.get("/:userId", authMiddleware, getProfile);
 
 // Route to update a portfolio link
 router.put("/portfolio/:id", authMiddleware, updatePortfolio);

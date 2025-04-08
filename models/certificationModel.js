@@ -20,15 +20,15 @@ const Certification = sequelize.define('Certification', {
     },
     certificateTitle: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     organization: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     date: {
         type: DataTypes.DATEONLY,
-        allowNull: false,
+        allowNull: true,
     },
     validTill: {
         type: DataTypes.DATEONLY,

@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db"); // Import your Sequelize instance
 const Login = require("./loginModel");
 
@@ -37,8 +37,13 @@ const Education = sequelize.define(
       allowNull: false,
     },
     completionYear: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        isInt: true,
+        min: 1900, // Optional: Set a minimum year
+        max: new Date().getFullYear(), // Optional: Ensure it's not a future year
+      },
     },
   },
   {

@@ -20,10 +20,10 @@ const User = sequelize.define(
     fullName: { type: DataTypes.STRING, allowNull: false },
     gender: { type: DataTypes.STRING, allowNull: false },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
-    password: { type: DataTypes.STRING, allowNull: false },
     phone: { type: DataTypes.BIGINT, allowNull: false },
     location: { type: DataTypes.STRING, allowNull: false },
     birthDate: { type: DataTypes.DATEONLY, allowNull: false },
+    pincode: { type: DataTypes.INTEGER, allowNull: false },
   },
   {
     timestamps: true, // Store createdAt and updatedAt automatically

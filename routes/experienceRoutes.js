@@ -11,7 +11,7 @@ const authMiddleware = require("../middleware/authMiddleware"); // Use the authe
 
 // All experience routes are protected by authentication
 router.post("/", authMiddleware, createExperience); // Create Experience (requires login)
-router.get("/", authMiddleware, getExperiencesForLoggedInUser); // Get Required Experience (requires login)
+router.get("/:userId", authMiddleware, getExperiencesForLoggedInUser); // Get Required Experience (requires login)
 router.put("/:id", authMiddleware, updateExperience); // Update Experience (requires login)
 router.delete("/:id", authMiddleware, deleteExperience); // Delete Experience (requires login)
 

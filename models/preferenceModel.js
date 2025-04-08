@@ -17,10 +17,10 @@ const Preference = sequelize.define(
       onDelete: "CASCADE", // Adjust based on your requirements
       onUpdate: "CASCADE", // Adjust based on your requirements
     },
-    employmentType: { type: DataTypes.STRING, allowNull: false },
-    workplace: { type: DataTypes.STRING, allowNull: false },
-    location: { type: DataTypes.STRING, allowNull: false },
-    shift: { type: DataTypes.STRING, allowNull: false },
+    employmentType: { type: DataTypes.STRING, allowNull: true },
+    workplace: { type: DataTypes.STRING, allowNull: true },
+    location: { type: DataTypes.STRING, allowNull: true },
+    shift: { type: DataTypes.STRING, allowNull: true },
   },
   {
     timestamps: true, // Store createdAt and updatedAt automatically
